@@ -33,11 +33,15 @@ public class BoardController {
         return service.list();
     }
 
+    // .get("/api/board/id/" + id) 리액트에서 이런식으로 요청하게 되면
+    // 매핑주소 뒤에 id는 { } 안에 작성
     @GetMapping("id/{id}")
     public Board get(@PathVariable Integer id) {
         return service.get(id);
     }
 
+    // .delete("/api/board/remove/" + id) 리액트에서 이런식으로 요청하게되면
+    // 매핑주소 뒤에 id는 { } 안에 작성
     @DeleteMapping("remove/{id}")
     public ResponseEntity remove(@PathVariable Integer id) {
         if (service.remove(id)) {
