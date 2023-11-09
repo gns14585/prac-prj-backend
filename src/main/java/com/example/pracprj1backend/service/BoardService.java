@@ -21,12 +21,15 @@ public class BoardService {
         if (board == null) {
             return false;
         }
+        // 값이 null 이거나, 값이 비어있으면 return false
         if (board.getContent() == null || board.getContent().isBlank()) {
             return false;
         }
+        // 값이 null 이거나, 값이 비어있으면 return false
         if (board.getTitle() == null || board.getTitle().isBlank()) {
             return false;
         }
+        // 값이 null 이거나, 값이 비어있으면 return false
         if (board.getWriter() == null || board.getWriter().isBlank()) {
             return false;
         }
@@ -37,5 +40,9 @@ public class BoardService {
     public List<Board> list() {
         return mapper.list();
 
+    }
+
+    public Board get(Integer id) {
+        return mapper.selectById(id);
     }
 }
