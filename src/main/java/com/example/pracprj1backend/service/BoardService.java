@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -50,7 +51,29 @@ public class BoardService {
         return mapper.deleteById(id) == 1;
     }
 
-    public void update(Board board) {
-        mapper.update(board);
+    public boolean update(Board board) {
+        return mapper.update(board) == 1;
+    }
+
+    public boolean nondate(Board board, Map<String, String> map) {
+        if (board == null) {
+            return false;
+        }
+
+        if (board.getTitle() == null || board.getTitle().isBlank()) {
+            map.put("message", "제목이 비어있습니다.");
+        }
+
+        if (board.getContent() == null || board.getContent().isBlank()) {
+            map.put("message", "본문이 비어있습니다.");
+            return false;
+        }
+
+        if (board.getWriter() == null || board.getWriter().isBlank()) {
+            map.put("message", "작성자가 비어있습니다.");
+            return false;
+        }
+
+        return true;
     }
 }

@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -52,8 +54,18 @@ public class BoardController {
     }
 
     @PutMapping("edit")
-    public void edit(@RequestBody Board board) {
-        service.update (board);
+    public ResponseEntity edit(@RequestBody Board board) {
+        Map<String, String> map = new HashMap<>();
+
+        if (!service.nondate(board, map)) {
+            return ResponseEntity.badRequest().body(map);
+        }
+
+        if (service.update(board)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
 
