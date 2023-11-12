@@ -27,4 +27,12 @@ public class MemberController {
         }
     }
 
+    @GetMapping(value = "check", params = "email")
+    public ResponseEntity chekcEmail(String email) {
+        if (service.getEmail(email) == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().build();
+        }
+    }
 }

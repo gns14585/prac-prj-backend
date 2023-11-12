@@ -18,4 +18,8 @@ public class MemberService {
         return mapper.selectId(id);
 
     }
+
+    public String getEmail(String email) {
+        return mapper.selectEmail(email);
+    }
 }
