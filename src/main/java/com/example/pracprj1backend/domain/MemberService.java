@@ -13,4 +13,9 @@ public class MemberService {
     public void add(Member member) {
         mapper.insert(member);
     }
+
+    public String getId(String id) {
+        return mapper.selectId(id);
+
+    }
 }
