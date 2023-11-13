@@ -1,9 +1,8 @@
 package com.example.pracprj1backend.controller;
 
 import com.example.pracprj1backend.domain.Member;
-import com.example.pracprj1backend.domain.MemberService;
+import com.example.pracprj1backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,41 +66,22 @@ public class MemberController {
         // TODO : 로그인 했는지 ? -> 안했으면 401
         // TODO : 자기 정보인지 ? -> 아니면 403
 
-        if(service.deleteMember(id)) {
+        if (service.deleteMember(id)) {
             return ResponseEntity.ok().build();
         }
 
         return ResponseEntity.internalServerError().build();
     }
 
+    @PutMapping("edit")
+    public ResponseEntity edit(@RequestBody Member member) {
+        if (service.updateMember(member)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.internalServerError().build();
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 
 }

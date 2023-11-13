@@ -1,5 +1,6 @@
-package com.example.pracprj1backend.domain;
+package com.example.pracprj1backend.service;
 
+import com.example.pracprj1backend.domain.Member;
 import com.example.pracprj1backend.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -52,5 +53,9 @@ public class MemberService {
 
     public boolean deleteMember(String id) {
         return mapper.deleteById(id) == 1;
+    }
+
+    public Boolean updateMember(Member member) {
+        return mapper.updateById(member) == 1;
     }
 }
