@@ -1,6 +1,7 @@
 package com.example.pracprj1backend.service;
 
 import com.example.pracprj1backend.domain.Board;
+import com.example.pracprj1backend.domain.Member;
 import com.example.pracprj1backend.mapper.BoardMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,8 @@ public class BoardService {
 
     private final BoardMapper mapper;
 
-    public boolean save(Board board) {
+    public boolean save(Board board, Member login) {
+        board.setWriter(login.getId());
         return mapper.insert(board) == 1;
     }
 

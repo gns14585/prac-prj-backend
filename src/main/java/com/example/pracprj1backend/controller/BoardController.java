@@ -4,6 +4,7 @@ import com.example.pracprj1backend.domain.Board;
 import com.example.pracprj1backend.domain.Member;
 import com.example.pracprj1backend.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,13 +23,15 @@ public class BoardController {
     public ResponseEntity add(@RequestBody Board board,
                               @SessionAttribute (value = "login", required = false) Member login) {
 
-        System.out.println("login = " + login);
+        if (login == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
         if (!service.validate(board)) {
             return ResponseEntity.badRequest().build();
         }
 
-        if (service.save(board)) {
+        if (service.save(board, login)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.badRequest().build();
