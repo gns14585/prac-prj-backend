@@ -3,6 +3,7 @@ package com.example.pracprj1backend.controller;
 import com.example.pracprj1backend.domain.Member;
 import com.example.pracprj1backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -89,8 +90,28 @@ public class MemberController {
         } else {
             return ResponseEntity.internalServerError().build();
         }
-
     }
+
+    @PostMapping("login")
+    public ResponseEntity login(@RequestBody Member member) {
+
+        if (service.login(member)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

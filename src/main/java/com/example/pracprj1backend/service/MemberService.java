@@ -3,6 +3,7 @@ package com.example.pracprj1backend.service;
 import com.example.pracprj1backend.domain.Member;
 import com.example.pracprj1backend.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.ognl.Ognl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -61,5 +62,16 @@ public class MemberService {
 
     public String getNickName(String nickName) {
         return mapper.selectNickName(nickName);
+    }
+
+    public boolean login(Member member) {
+        Member dbMember = mapper.selectById(member.getId());
+
+        if (dbMember != null) {
+            if (dbMember.getPassword().equals(member.getPassword())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
