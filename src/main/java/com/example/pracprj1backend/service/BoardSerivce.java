@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BoardService {
+public class BoardSerivce {
 
     private final MemberService memberService;
     private final BoardMapper mapper;

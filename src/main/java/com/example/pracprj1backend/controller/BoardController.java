@@ -2,30 +2,30 @@ package com.example.pracprj1backend.controller;
 
 import com.example.pracprj1backend.domain.Board;
 import com.example.pracprj1backend.domain.Member;
-import com.example.pracprj1backend.service.BoardService;
+import com.example.pracprj1backend.service.BoardSerivce;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/board")
 public class BoardController {
 
-    private final BoardService service;
+    private final BoardSerivce service;
 
     @PostMapping("add")
     public ResponseEntity add(@RequestBody Board board,
-                              @SessionAttribute (value = "login", required = false) Member login) {
+                              @SessionAttribute(value = "login", required = false) Member login) {
 
         if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+
+        System.out.println("login = " + login);
 
         if (!service.validate(board)) {
             return ResponseEntity.badRequest().build();
@@ -43,25 +43,20 @@ public class BoardController {
         return service.list();
     }
 
-    // .get("/api/board/id/" + id) 리액트에서 이런식으로 요청하게 되면
-    // 매핑주소 뒤에 id는 { } 안에 작성
     @GetMapping("id/{id}")
     public Board get(@PathVariable Integer id) {
         return service.get(id);
     }
 
-    // .delete("/api/board/remove/" + id) 리액트에서 이런식으로 요청하게되면
-    // 매핑주소 뒤에 id는 { } 안에 작성
     @DeleteMapping("remove/{id}")
     public ResponseEntity remove(@PathVariable Integer id,
                                  @SessionAttribute(value = "login", required = false) Member login) {
-
         if (login == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // 401
         }
 
         if (!service.hasAccess(id, login)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // 403
         }
 
         if (service.remove(id)) {
@@ -74,6 +69,7 @@ public class BoardController {
     @PutMapping("edit")
     public ResponseEntity edit(@RequestBody Board board,
                                @SessionAttribute(value = "login", required = false) Member login) {
+
         if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
@@ -82,32 +78,14 @@ public class BoardController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        Map<String, String> map = new HashMap<>();
-
-        if (!service.nondate(board, map)) {
-            return ResponseEntity.badRequest().body(map);
-        }
-
-        if (service.update(board)) {
-            return ResponseEntity.ok().build();
+        if (service.validate(board)) {
+            if (service.update(board)) {
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.internalServerError().build();
+            }
         } else {
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.badRequest().build();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

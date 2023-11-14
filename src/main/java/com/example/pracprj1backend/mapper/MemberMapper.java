@@ -1,5 +1,6 @@
 package com.example.pracprj1backend.mapper;
 
+import com.example.pracprj1backend.domain.Auth;
 import com.example.pracprj1backend.domain.Member;
 import org.apache.ibatis.annotations.*;
 
@@ -15,23 +16,27 @@ public interface MemberMapper {
     int insert(Member member);
 
     @Select("""
-            SELECT id
-            FROM member
+            SELECT id FROM member
             WHERE id = #{id}
             """)
     String selectId(String id);
 
     @Select("""
-            SELECT email
-            FROM member
+            SELECT email FROM member
             WHERE email = #{email}
             """)
     String selectEmail(String email);
 
     @Select("""
-            SELECT id, password, email, nickName, inserted
+            SELECT nickName FROM member
+            WHERE nickName = #{nickName}
+            """)
+    String selectNickName(String nickName);
+
+    @Select("""
+            SELECT id, password, email, inserted, nickName
             FROM member
-            ORDER BY inserted DESC 
+            ORDER BY inserted DESC
             """)
     List<Member> selectAll();
 
@@ -49,25 +54,24 @@ public interface MemberMapper {
             """)
     int deleteById(String id);
 
-
     @Update("""
-            <script>
-            UPDATE member
-            SET
-                <if test="password != ''">
-                password = #{password},
-                </if>
-                nickName = #{nickName},
-                email = #{email}
-            WHERE id = #{id}
-            </script>
-            """)
-    int updateById(Member member);
+        <script>
+        UPDATE member
+        SET 
+          <if test="password != ''">
+          password = #{password},
+          </if>
+          email = #{email},
+          nickName = #{nickName}
+        WHERE id = #{id}
+        </script>
+        """)
+    int update(Member member);
+
 
     @Select("""
-            SELECT nickName
-            FROM member
-            WHERE nickName = #{nickName}
+            SELECT * FROM auth
+            WHERE memberId = #{id}
             """)
-    String selectNickName(String nickName);
+    List<Auth> selectAuthById(String id);
 }
