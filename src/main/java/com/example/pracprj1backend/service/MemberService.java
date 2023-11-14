@@ -58,4 +58,8 @@ public class MemberService {
     public Boolean updateMember(Member member) {
         return mapper.updateById(member) == 1;
     }
+
+    public String getNickName(String nickName) {
+        return mapper.selectNickName(nickName);
+    }
 }
