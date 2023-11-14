@@ -30,10 +30,6 @@ public class BoardService {
         if (board.getTitle() == null || board.getTitle().isBlank()) {
             return false;
         }
-        // 값이 null 이거나, 값이 비어있으면 return false
-        if (board.getWriter() == null || board.getWriter().isBlank()) {
-            return false;
-        }
 
         return true;
     }
