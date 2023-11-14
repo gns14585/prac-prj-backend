@@ -76,13 +76,12 @@ public class MemberController {
     @DeleteMapping
     public ResponseEntity delete(String id,
                                  @SessionAttribute(value = "login", required = false) Member login) {
-
         if (login == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // 401
         }
 
         if (!service.hasAccess(id, login)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // 403
         }
 
         if (service.deleteMember(id)) {
@@ -93,7 +92,17 @@ public class MemberController {
     }
 
     @PutMapping("edit")
-    public ResponseEntity edit(@RequestBody Member member) {
+    public ResponseEntity edit(@RequestBody Member member,
+                               @SessionAttribute(value = "login", required = false) Member login) {
+
+        if (login == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        if (!service.hasAccess(member.getId(), login)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         if (service.updateMember(member)) {
             return ResponseEntity.ok().build();
         } else {
