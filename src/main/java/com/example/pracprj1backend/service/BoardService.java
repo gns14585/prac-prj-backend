@@ -74,4 +74,10 @@ public class BoardService {
 
         return true;
     }
+
+    public boolean hasAccess(Integer id, Member login) {
+        Board board = mapper.selectById(id);
+
+        return board.getWriter().equals(login.getId());
+    }
 }

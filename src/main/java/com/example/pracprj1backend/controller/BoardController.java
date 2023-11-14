@@ -53,7 +53,17 @@ public class BoardController {
     // .delete("/api/board/remove/" + id) 리액트에서 이런식으로 요청하게되면
     // 매핑주소 뒤에 id는 { } 안에 작성
     @DeleteMapping("remove/{id}")
-    public ResponseEntity remove(@PathVariable Integer id) {
+    public ResponseEntity remove(@PathVariable Integer id,
+                                 @SessionAttribute(value = "login", required = false) Member login) {
+
+        if (login == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        if (!service.hasAccess(id, login)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         if (service.remove(id)) {
             return ResponseEntity.ok().build();
         } else {
