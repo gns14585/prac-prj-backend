@@ -30,5 +30,5 @@ public interface CommentMapper {
             DELETE FROM comment
             WHERE id = #{id}
             """)
-    int delete(String id);
+    int delete(Integer id);
 }

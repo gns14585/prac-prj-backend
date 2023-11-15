@@ -40,8 +40,8 @@ public class CommentController {
         return service.list(boardId);
     }
 
-    @DeleteMapping("delete/{id}")
-    public int delete(String id) {
+    @DeleteMapping("{id}")
+    public int delete(Integer id) {
         return service.delete(id);
     }
 

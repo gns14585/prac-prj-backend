@@ -41,7 +41,7 @@ public class CommentService {
         return mapper.selectByBoardId(boardId);
     }
 
-    public int delete(String id) {
+    public int delete(Integer id) {
         return mapper.delete(id);
     }
 }
