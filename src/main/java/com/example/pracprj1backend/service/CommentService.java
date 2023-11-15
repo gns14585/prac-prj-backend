@@ -41,7 +41,14 @@ public class CommentService {
         return mapper.selectByBoardId(boardId);
     }
 
-    public void remove(Integer id) {
-        mapper.deleteById(id);
+    public boolean remove(Integer id) {
+        return mapper.deleteById(id) == 1;
+    }
+
+    public boolean hasAccess(Integer id, Member login) {
+        Comment comment = mapper.selectById(id);
+
+        // 댓글을 작성한 사용자와, 로그인한 사용자가 같은지 비교
+        return comment.getMemberId().equals(login.getId());
     }
 }
