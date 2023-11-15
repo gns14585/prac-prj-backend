@@ -1,9 +1,11 @@
 package com.example.pracprj1backend.mapper;
 
 import com.example.pracprj1backend.domain.Comment;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -23,4 +25,10 @@ public interface CommentMapper {
             WHERE boardId = #{boardId}
             """)
     List<Comment> selectByBoardId(Integer boardId);
+
+    @Delete("""
+            DELETE FROM comment
+            WHERE id = #{id}
+            """)
+    int delete(String id);
 }
