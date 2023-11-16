@@ -13,7 +13,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardSerivce {
 
-    private final MemberService memberService;
     private final BoardMapper mapper;
     private final CommentMapper commentMapper;
 
@@ -57,7 +56,11 @@ public class BoardSerivce {
     }
 
     public boolean hasAccess(Integer id, Member login) {
-        if (memberService.isAdmin(login)) {
+        if (login == null) {
+            return false;
+        }
+
+        if (login.isAdmin()) {
             return true;
         }
 
