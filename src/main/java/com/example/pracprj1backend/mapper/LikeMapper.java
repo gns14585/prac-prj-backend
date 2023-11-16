@@ -1,0 +1,23 @@
+package com.example.pracprj1backend.mapper;
+
+import com.example.pracprj1backend.domain.Like;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface LikeMapper {
+
+    @Delete("""
+            DELETE FROM boardLike
+            WHERE boardId = #{boardId}
+            AND memberId = #{memberId}
+            """)
+    int delete(Like like);
+
+    @Insert("""
+            INSERT INTO boardlike (boardId, memberId)
+            VALUES (#{boardId}, #{memberId})
+            """)
+    int insert(Like like);
+}
