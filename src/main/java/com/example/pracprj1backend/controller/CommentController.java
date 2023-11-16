@@ -56,6 +56,34 @@ public class CommentController {
         } else { // 로그인은 했지만 해당 아이디랑 관련된 것들이 아닐때
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-
     }
+
+
+    @PutMapping("edit")
+    public void update(@RequestBody Comment comment) {
+        service.update(comment);
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
