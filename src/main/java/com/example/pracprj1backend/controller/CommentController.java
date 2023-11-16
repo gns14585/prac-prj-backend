@@ -42,7 +42,7 @@ public class CommentController {
 
     @DeleteMapping("{id}")
     public ResponseEntity remove(@PathVariable Integer id,
-                                         @SessionAttribute(value = "login", required = false) Member login) {
+                                 @SessionAttribute(value = "login", required = false) Member login) {
         if (login == null) { // 로그인을 안했을때
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
@@ -60,10 +60,29 @@ public class CommentController {
 
 
     @PutMapping("edit")
-    public void update(@RequestBody Comment comment) {
-        service.update(comment);
-    }
+    public ResponseEntity update(@RequestBody Comment comment,
+                                 @SessionAttribute(value = "login", required = false) Member login) {
+        // login이 안된 상태라면
+        if (null == login) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        // 권한이 있는지
+        if (service.hasAccess(comment.getId(), login)) {
+            if (!service.updateValidate(comment)) {
+                return ResponseEntity.badRequest().build(); // 유효하지 않으면
+            }
 
+            if (service.update(comment)) {
+                return ResponseEntity.ok().build(); // 권한이 있으면 ok
+            } else {
+                return ResponseEntity.internalServerError().build();
+            }
+        } else {
+            // 권한이 없으면
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+        }
+    }
 }
 
 
