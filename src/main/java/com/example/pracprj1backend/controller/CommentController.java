@@ -1,7 +1,7 @@
 package com.example.pracprj1backend.controller;
 
 import com.example.pracprj1backend.domain.Member;
-import com.example.pracprj1backend.domin.Comment;
+import com.example.pracprj1backend.domain.Comment;
 import com.example.pracprj1backend.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

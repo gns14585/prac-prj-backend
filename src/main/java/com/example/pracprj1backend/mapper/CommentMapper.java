@@ -1,6 +1,6 @@
 package com.example.pracprj1backend.mapper;
 
-import com.example.pracprj1backend.domin.Comment;
+import com.example.pracprj1backend.domain.Comment;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -15,9 +15,16 @@ public interface CommentMapper {
     int insert(Comment comment);
 
     @Select("""
-            SELECT *
-            FROM comment
+            SELECT c.id,
+                   c.memberId,
+                   c.comment,
+                   c.boardId,
+                   m.nickName,
+                   c.inserted
+            FROM comment c JOIN member m
+            ON c.memberId = m.id
             WHERE boardId = #{boardId}
+            ORDER BY c.id DESC
             """)
     List<Comment> selectByBoardId(Integer boardId);
 
