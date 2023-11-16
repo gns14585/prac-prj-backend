@@ -1,7 +1,7 @@
 package com.example.pracprj1backend.service;
 
-import com.example.pracprj1backend.domain.Comment;
 import com.example.pracprj1backend.domain.Member;
+import com.example.pracprj1backend.domin.Comment;
 import com.example.pracprj1backend.mapper.CommentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommentService {
 
-
     private final CommentMapper mapper;
 
     public boolean add(Comment comment, Member login) {
@@ -21,21 +20,20 @@ public class CommentService {
     }
 
     public boolean validate(Comment comment) {
-
         if (comment == null) {
             return false;
         }
-
         if (comment.getBoardId() == null || comment.getBoardId() < 1) {
             return false;
         }
-
         if (comment.getComment() == null || comment.getComment().isBlank()) {
             return false;
         }
 
         return true;
+
     }
+
 
     public List<Comment> list(Integer boardId) {
         return mapper.selectByBoardId(boardId);
@@ -52,7 +50,4 @@ public class CommentService {
         return comment.getMemberId().equals(login.getId());
     }
 
-    public int update(Comment comment) {
-        return mapper.updateById(comment);
-    }
 }

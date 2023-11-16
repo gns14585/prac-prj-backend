@@ -1,7 +1,7 @@
 package com.example.pracprj1backend.controller;
 
-import com.example.pracprj1backend.domain.Comment;
 import com.example.pracprj1backend.domain.Member;
+import com.example.pracprj1backend.domin.Comment;
 import com.example.pracprj1backend.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -42,8 +42,8 @@ public class CommentController {
 
     @DeleteMapping("{id}")
     public ResponseEntity remove(@PathVariable Integer id,
-                       @SessionAttribute(value = "login", required = false) Member login) {
-        if (login == null) {
+                                         @SessionAttribute(value = "login", required = false) Member login) {
+        if (login == null) { // 로그인을 안했을때
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
@@ -53,13 +53,9 @@ public class CommentController {
             } else {
                 return ResponseEntity.internalServerError().build();
             }
-        } else {
+        } else { // 로그인은 했지만 해당 아이디랑 관련된 것들이 아닐때
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-    }
 
-    @PutMapping("edit")
-    public void edit(@RequestBody Comment comment) {
-        service.update(comment);
     }
 }

@@ -1,13 +1,15 @@
 package com.example.pracprj1backend.mapper;
 
-import com.example.pracprj1backend.domain.Comment;
-import org.apache.ibatis.annotations.*;
+import com.example.pracprj1backend.domin.Comment;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
 @Mapper
 public interface CommentMapper {
-
 
     @Insert("""
             INSERT INTO comment (boardId, comment, memberId)
@@ -34,10 +36,4 @@ public interface CommentMapper {
             """)
     Comment selectById(Integer id);
 
-    @Update("""
-            UPDATE comment
-            SET comment = #{comment}
-            WHERE id = #{id}
-            """)
-    int updateById(Comment comment);
 }
