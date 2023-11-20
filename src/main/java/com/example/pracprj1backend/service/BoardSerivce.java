@@ -8,7 +8,10 @@ import com.example.pracprj1backend.mapper.LikeMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -37,11 +40,25 @@ public class BoardSerivce {
         return true;
     }
 
-    public List<Board> list(Integer page) {
+    public Map<String, Object> list(Integer page) {
+
+        // 게시물 페이징 기법
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> pageInfo = new HashMap<>();
+
+        int countAll = mapper.countAll(); // 총 게시물 수
+        int lastPagenumber = (countAll - 1) / 10 + 1; // 최종 마지막 페이지 번호
+        int startPageNumber = (page - 1) / 10 * 10 + 1; // 1~10 중 1페이지 시작 페이지 번호
+        int endPageNumber = startPageNumber + 9; // 1~10 중 10페이지 마지막 페이지 번호
+        endPageNumber = Math.min(endPageNumber, lastPagenumber);
+
+        pageInfo.put("startPageNumber", startPageNumber);
+        pageInfo.put("lastPageNumber", lastPagenumber);
 
         int from = (page - 1) * 10;
-
-        return mapper.selectAll(from);
+        map.put("boardList", mapper.selectAll(from));
+        map.put("pageInfo", pageInfo);
+        return map;
     }
 
     public Board get(Integer id) {
