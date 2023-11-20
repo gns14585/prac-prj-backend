@@ -37,8 +37,11 @@ public class BoardSerivce {
         return true;
     }
 
-    public List<Board> list() {
-        return mapper.selectAll();
+    public List<Board> list(Integer page) {
+
+        int from = (page - 1) * 10;
+
+        return mapper.selectAll(from);
     }
 
     public Board get(Integer id) {
