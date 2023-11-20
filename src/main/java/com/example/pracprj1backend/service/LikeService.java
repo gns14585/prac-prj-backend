@@ -32,4 +32,15 @@ public class LikeService {
                 "countLike", countLike);
 
     }
+
+    public Map<String, Object> get(Integer boardId, Member login) {
+        int countLike = mapper.countByBoardId(boardId);
+
+        boolean like = false;
+        if (login != null) {
+           Like like1 = mapper.selectByBoardIdAndMemberId(boardId, login.getId());
+           like = like1 != null;
+        }
+        return Map.of("like", like, "countLike", countLike);
+    }
 }

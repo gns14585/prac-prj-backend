@@ -26,5 +26,5 @@ public interface LikeMapper {
             SELECT COUNT(id) FROM boardlike
             WHERE boardId = #{boardId}
             """)
-    int countByBoardId(String boardId);
+    int countByBoardId(Integer boardId);
 }
