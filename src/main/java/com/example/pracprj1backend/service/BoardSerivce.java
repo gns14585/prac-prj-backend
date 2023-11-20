@@ -51,9 +51,18 @@ public class BoardSerivce {
         int startPageNumber = (page - 1) / 10 * 10 + 1; // 1~10 중 1페이지 시작 페이지 번호
         int endPageNumber = startPageNumber + 9; // 1~10 중 10페이지 마지막 페이지 번호
         endPageNumber = Math.min(endPageNumber, lastPagenumber);
+        int prevPageNumber = startPageNumber - 10;
+        int nextPageNumber = endPageNumber + 1;
 
         pageInfo.put("startPageNumber", startPageNumber);
         pageInfo.put("endPageNumber", endPageNumber);
+
+        if (prevPageNumber > 0) { // 페이지번호 0 보다 클 경우에만 화살표 버튼 보여지게
+            pageInfo.put("prevPageNumber", prevPageNumber); // 왼쪽버튼 눌렀을때 10페이지 전으로 이동
+        }
+        if (nextPageNumber <= lastPagenumber) { // lastPageNumber 보다 작을 경우에만 보여지게
+            pageInfo.put("nextPageNumber", nextPageNumber);  // 마지막 페이지에선 오른쪽으로 가는 버튼 보여지지않음
+        }
 
         int from = (page - 1) * 10;
         map.put("boardList", mapper.selectAll(from));
