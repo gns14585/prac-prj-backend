@@ -53,7 +53,7 @@ public class BoardSerivce {
         endPageNumber = Math.min(endPageNumber, lastPagenumber);
 
         pageInfo.put("startPageNumber", startPageNumber);
-        pageInfo.put("lastPageNumber", lastPagenumber);
+        pageInfo.put("endPageNumber", endPageNumber);
 
         int from = (page - 1) * 10;
         map.put("boardList", mapper.selectAll(from));
