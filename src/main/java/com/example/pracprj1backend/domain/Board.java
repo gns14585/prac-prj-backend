@@ -1,5 +1,6 @@
 package com.example.pracprj1backend.domain;
 
+import com.example.pracprj1backend.util.AppUtil;
 import lombok.Data;
 
 import java.time.Duration;
@@ -19,7 +20,6 @@ public class Board {
     private Integer countLike;
 
     public String getAgo() {
-        LocalDateTime now = LocalDateTime.now();
-
+        return AppUtil.getAgo(inserted, LocalDateTime.now());
     }
 }
