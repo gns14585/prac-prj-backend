@@ -149,6 +149,9 @@ public class BoardSerivce {
         // 좋아요 레코드 지우기
         likeMapper.deleteByBoardId(id);
 
+        // 첨부파일 레코드 지우기
+        fileMapper.deleteByBoardId(id);
+
         // 작성한 게시물 삭제
         return mapper.deleteById(id) == 1;
     }

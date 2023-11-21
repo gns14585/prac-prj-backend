@@ -1,6 +1,7 @@
 package com.example.pracprj1backend.mapper;
 
 import com.example.pracprj1backend.domain.BoardFile;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -22,4 +23,10 @@ public interface FileMapper {
             WHERE boardId = #{boardId}
             """)
     List<BoardFile> selectNamesByBoardId(Integer boardId);
+
+    @Delete("""
+            DELETE FROM boardfile
+            WHERE boardId = #{boardId}
+            """)
+    int deleteByBoardId(Integer boardId);
 }
