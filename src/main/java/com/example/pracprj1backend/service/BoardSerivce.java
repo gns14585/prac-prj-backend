@@ -58,6 +58,7 @@ public class BoardSerivce {
         pageInfo.put("startPageNumber", startPageNumber);
         pageInfo.put("endPageNumber", endPageNumber);
 
+
         if (prevPageNumber > 0) { // 페이지번호 0 보다 클 경우에만 화살표 버튼 보여지게
             pageInfo.put("prevPageNumber", prevPageNumber); // 왼쪽버튼 눌렀을때 10페이지 전으로 이동
             pageInfo.put("firstPageNumber", firstPageNumber); // 처음 페이지로 이동
