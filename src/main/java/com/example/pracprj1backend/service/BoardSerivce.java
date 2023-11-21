@@ -44,7 +44,8 @@ public class BoardSerivce {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> pageInfo = new HashMap<>();
 
-        int countAll = mapper.countAll(); // 총 게시물 수
+//        int countAll = mapper.countAll(); // 총 게시물 수
+        int countAll = mapper.countAll("%" + keyword + "%");
         int lastPageNumber = (countAll - 1) / 10 + 1; // 최종 마지막 페이지 번호
         int startPageNumber = (page - 1) / 10 * 10 + 1; // 1~10 중 1페이지 시작 페이지 번호
         int endPageNumber = startPageNumber + 9; // 1~10 중 10페이지 마지막 페이지 번호
