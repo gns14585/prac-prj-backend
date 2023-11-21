@@ -38,7 +38,7 @@ public class BoardSerivce {
         return true;
     }
 
-    public Map<String, Object> list(Integer page) {
+    public Map<String, Object> list(Integer page, String keyword) {
 
         // 게시물 페이징 기법
         Map<String, Object> map = new HashMap<>();
@@ -68,7 +68,7 @@ public class BoardSerivce {
 
 
         int from = (page - 1) * 10;
-        map.put("boardList", mapper.selectAll(from));
+        map.put("boardList", mapper.selectAll(from, "%" + keyword + "%"));
         map.put("pageInfo", pageInfo);
         return map;
     }

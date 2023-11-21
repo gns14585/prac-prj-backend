@@ -41,10 +41,12 @@ public class BoardController {
 
     // /api/board/list?p=페이지번호
     @GetMapping("list")
-    public Map<String, Object> list(@RequestParam(value = "p", defaultValue = "1") Integer page) {
+    public Map<String, Object> list(
+            @RequestParam(value = "p", defaultValue = "1") Integer page,
+            @RequestParam(value = "k", defaultValue = "") String keyword) {
 
 
-        return service.list(page);
+        return service.list(page, keyword);
     }
 
     @GetMapping("id/{id}")
