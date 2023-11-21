@@ -5,11 +5,13 @@ import com.example.pracprj1backend.domain.Comment;
 import com.example.pracprj1backend.mapper.CommentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(rollbackFor = Exception.class)
 public class CommentService {
 
     private final CommentMapper mapper;
