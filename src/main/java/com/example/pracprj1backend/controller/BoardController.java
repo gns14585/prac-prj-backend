@@ -23,13 +23,13 @@ public class BoardController {
     public ResponseEntity add(Board board,
                               @RequestParam(value = "files[]", required = false) MultipartFile[] files,
                               @SessionAttribute(value = "login", required = false) Member login) {
-
-        if (files != null) {
-            for (int i = 0; i < files.length; i++) {
-                System.out.println("file = " + files[i].getOriginalFilename());
-                System.out.println("file.getSize() = " + files[i].getSize());
-            }
-        }
+//        파일이 넘어오는걸 확인해보는 용도의 코드
+//        if (files != null) {
+//            for (int i = 0; i < files.length; i++) {
+//                System.out.println("file = " + files[i].getOriginalFilename());
+//                System.out.println("file.getSize() = " + files[i].getSize());
+//            }
+//        }
 
         if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -39,7 +39,7 @@ public class BoardController {
             return ResponseEntity.badRequest().build();
         }
 
-        if (service.save(board, login)) {
+        if (service.save(board, files, login)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.badRequest().build();

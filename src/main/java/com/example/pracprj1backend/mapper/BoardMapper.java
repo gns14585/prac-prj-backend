@@ -12,7 +12,7 @@ public interface BoardMapper {
             INSERT INTO board (title, content, writer)
             VALUES (#{title}, #{content}, #{writer})
             """)
-
+    @Options(useGeneratedKeys = true, keyProperty = "id") // 새 레코드가 들어갈때 자동으로 생성되는 pk
     int insert(Board board);
 
     @Select("""
