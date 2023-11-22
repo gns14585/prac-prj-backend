@@ -1,19 +1,24 @@
 package com.example.pracprj1backend.service;
 
 import com.example.pracprj1backend.domain.Board;
+import com.example.pracprj1backend.domain.BoardFile;
 import com.example.pracprj1backend.domain.Member;
 import com.example.pracprj1backend.mapper.BoardMapper;
 import com.example.pracprj1backend.mapper.CommentMapper;
 import com.example.pracprj1backend.mapper.FileMapper;
 import com.example.pracprj1backend.mapper.LikeMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -25,6 +30,11 @@ public class BoardSerivce {
     private final CommentMapper commentMapper;
     private final LikeMapper likeMapper;
     private final FileMapper fileMapper;
+
+    private final S3Client s3;
+
+    @Value("${aws.s3.bucket.name}")
+    private String bucket;
 
 
     public boolean save(Board board, MultipartFile[] files, Member login) throws IOException {
@@ -124,8 +134,33 @@ public class BoardSerivce {
         // 좋아요 레코드 지우기
         likeMapper.deleteByBoardId(id);
 
+        // 첨부파일 삭제 함수로 빼기
+        deleteFile(id);
+
         // 작성한 게시물 삭제
         return mapper.deleteById(id) == 1;
+    }
+
+    private void deleteFile(Integer id) {
+        // 파일명 조회
+        List<BoardFile> boardFiles = fileMapper.selectNamesByBoardId(id);
+
+        // s3 bucket object 지우기
+        for (BoardFile file : boardFiles) {
+            String key = "prj1/" + id + "/" + file.getName();
+
+            DeleteObjectRequest objectRequest = DeleteObjectRequest.builder()
+                    .bucket(bucket)
+                    .key(key)
+                    .build();
+
+            s3.deleteObject(objectRequest);
+
+
+        }
+
+        // 첨부파일 레코드 지우기
+        fileMapper.deleteByBoardId(id);
     }
 
     public boolean update(Board board) {
