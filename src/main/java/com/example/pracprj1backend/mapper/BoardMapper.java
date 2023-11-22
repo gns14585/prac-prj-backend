@@ -22,10 +22,12 @@ public interface BoardMapper {
                m.nickName,
                b.inserted,
                COUNT(DISTINCT c.id) countComment,
-               COUNT(DISTINCT b2.memberId) countLike
+               COUNT(DISTINCT b2.memberId) countLike,
+               COUNT(DISTINCT f.id) countFile
         FROM board b JOIN member m ON b.writer = m.id
                      LEFT JOIN comment c ON b.id = c.boardId
-                     LEFT JOIN boardlike b2 on b.id = b2.boardId
+                     LEFT JOIN boardlike b2 ON b.id = b2.boardId
+                     LEFT JOIN boardfile f ON b.id = f.boardId
         WHERE b.content LIKE #{keyword}
             OR b.title LIKE #{keyword}
         GROUP BY b.id

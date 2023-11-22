@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Data
 public class Board {
@@ -18,6 +19,9 @@ public class Board {
     private LocalDateTime inserted;
     private Integer countComment;
     private Integer countLike;
+    private Integer countFile;
+
+    private List<BoardFile> files;
 
     public String getAgo() {
         return AppUtil.getAgo(inserted, LocalDateTime.now());
